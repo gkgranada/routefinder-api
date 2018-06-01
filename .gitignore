@@ -65,3 +65,6 @@ typings/
 
 # Serverless directories
 .serverless
+
+# dist file for generated js scripts
+dist/
