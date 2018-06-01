@@ -2,7 +2,7 @@
 import * as promise from 'bluebird';
 import {IMain, IDatabase, IOptions} from 'pg-promise';
 
-import {IExtensions, RoutesRepository} from '../repos';
+import {IExtensions, RoutesRepository, AirportsRepository} from '../repos';
 
 // pg-promise initialization options:
 const initOptions: IOptions<IExtensions> = {
@@ -21,6 +21,7 @@ const initOptions: IOptions<IExtensions> = {
         // Do not use 'require()' here, because this event occurs for every task
         // and transaction being executed, which should be as fast as possible.
         obj.routes = new RoutesRepository(obj, pgp);
+        obj.airports = new AirportsRepository(obj, pgp);
     }
 
 };
