@@ -202,15 +202,25 @@ describe('AStarRouteSearch unit tests', function () {
     routes.set(2965,[2990]);
     routes.set(2966,[2990, 2962]);
     routes.set(2968,[2990, 4078]);
-    routes.set(2990,[2965, 2966, 2968, 4029]);
+    routes.set(2990,[2965, 2966, 2968, 4029, 6156, 2948, 2975]);
     routes.set(4029,[2990, 6969, 6160]);
     routes.set(6969,[4029, 2922, 2948, 2975]);
  
     let testParams = [
-        [2965, 2962]
+        [4029, 2990], // 1 stop
+        [2965, 2966], // 2 stops
+        [2965, 2962], // 3 stops
+        [2965, 2975], // 4 stops (more than requirement, but routesearch function shouldn't care)
+        [2966, 4078], // 0 legs (path not found)
+        [6969, 6969]  // 0 legs (same airport)
     ];
     let testResults = [
-        [2965, 2990, 2966, 2962]
+        [4029, 2990],
+        [2965, 2990, 2966],
+        [2965, 2990, 2966, 2962],
+        [2965, 2990, 2966, 2990, 4029],
+        [],
+        [6969]
     ];
 
     testParams.forEach(function(t,i) {
@@ -220,7 +230,7 @@ describe('AStarRouteSearch unit tests', function () {
                 airports,
                 routes);
         console.log(path);
-        it('it should return ' + testResults[i] + ' km for ' + t[0] + ' .. ' + t[1], function(){
+        it('it should return [' + testResults[i] + ']  for ' + t[0] + ' .. ' + t[1], function(){
             assert.equal(testResults[i], path);
         });
     });
