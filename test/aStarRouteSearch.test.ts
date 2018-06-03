@@ -198,6 +198,39 @@ describe('AStarRouteSearch unit tests', function () {
         type: 'airport',
         source: 'OurAirports'});
 
+    airports.set(2922,
+        {id: 2922,
+        name: 'Heydar Aliyev International Airport',
+        city: 'Baku',
+        country: 'Azerbaijan',
+        iata: 'GYD',
+        icao: 'UBBB',
+        latitude: 40.4674987792969,
+        longitude: 50.0466995239258,
+        altitude: 10,
+        timezone: 4,
+        dst: 'E',
+        tz: 'Asia/Baku',
+        type: 'airport',
+        source: 'OurAirports'});
+
+// dummy airport (for path not found)
+    airports.set(1000,
+        {id: 1000,
+        name: 'Dummy Airport',
+        city: 'Dummy',
+        country: 'Dummy',
+        iata: 'DDD',
+        icao: 'DDDD',
+        latitude: 54.6399993896484,
+        longitude: 52.801700592041,
+        altitude: 991,
+        timezone: 3,
+        dst: 'N',
+        tz: 'Europe/Moscow',
+        type: 'airport',
+        source: 'OurAirports'});
+
     let routes = new Map<number, number[]>();
     routes.set(2965,[2990]);
     routes.set(2966,[2990, 2962]);
@@ -210,15 +243,15 @@ describe('AStarRouteSearch unit tests', function () {
         [4029, 2990], // 1 stop
         [2965, 2966], // 2 stops
         [2965, 2962], // 3 stops
-        [2965, 2975], // 4 stops (more than requirement, but routesearch function shouldn't care)
-        [2966, 4078], // 0 legs (path not found)
+        [2965, 2922], // 4 stops (more than requirement, but routesearch function shouldn't care)
+        [2966, 1000], // 0 legs (path not found)
         [6969, 6969]  // 0 legs (same airport)
     ];
     let testResults = [
         [4029, 2990],
         [2965, 2990, 2966],
         [2965, 2990, 2966, 2962],
-        [2965, 2990, 2966, 2990, 4029],
+        [2965, 2990, 4029, 6969, 2922],
         [],
         [6969]
     ];
@@ -231,7 +264,8 @@ describe('AStarRouteSearch unit tests', function () {
                 routes);
         console.log(path);
         it('it should return [' + testResults[i] + ']  for ' + t[0] + ' .. ' + t[1], function(){
-            assert.equal(testResults[i], path);
+            console.log(path);
+            assert.deepStrictEqual(testResults[i], path);
         });
     });
 });
