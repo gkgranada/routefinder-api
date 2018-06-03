@@ -38,7 +38,7 @@ export class AirportsRepository {
     }
 
     findByCode(code: string) {
-        return this.db.any('SELECT * FROM airports where iato = ' + code + ' | icao = '+ code +);
+        return this.db.oneOrNone('SELECT * FROM airports where iato = $1 | icao = $1', code);
     }
 
 }
