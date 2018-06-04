@@ -24,7 +24,7 @@ describe('GET api/v1/routes', () => {
     // With input/output iota or icao
     it('should contain origin and destination airport codes', function() {
         this.timeout(0);
-        return chai.request(app).get('/api/v1/routes')
+        return chai.request(app).get('/api/v1/routes/best')
         .query({
             origin:'AER',
             destination: 'KZN'
