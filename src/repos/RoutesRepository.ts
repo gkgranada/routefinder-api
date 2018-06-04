@@ -20,22 +20,10 @@ export class RoutesRepository {
     private pgp: IMain;
 
     // Returns all route records
-    // STOPS=0 to just return direct flights
+    // STOPS=0 to just return direct flights since we have no info about the stops
     all(req, res, next) {
 
-        this.db.any('SELECT * FROM routes WHERE STOPS=0')
-        .then(function (data) {
-          res.status(200)
-            .json({
-              status: 'success',
-              data: data,
-              message: 'Retrieved ALL routes'
-            });
-        })
-        .catch(function (err) {
-          return next(err);
-        });
-        return res;
+        return this.db.any('SELECT * FROM routes WHERE STOPS=0');
     }
 
 }
