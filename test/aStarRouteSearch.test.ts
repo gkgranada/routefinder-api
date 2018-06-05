@@ -243,7 +243,7 @@ describe('AStarRouteSearch unit tests', function () {
         [4029, 2990], // 1 stop
         [2965, 2966], // 2 stops
         [2965, 2962], // 3 stops
-        [2965, 2922], // 4 stops (more than requirement, but routesearch function shouldn't care)
+        [2965, 2922], // 4 stops
         [2966, 1000], // 0 legs (path not found)
         [6969, 6969]  // 0 legs (same airport)
     ];

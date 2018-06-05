@@ -24,13 +24,107 @@ describe('GET api/v1/routes', () => {
         });
     });
 
+    // Error cases
+    it('should return error message for missing origin', function() {
+        this.timeout(0);
+        return chai.request(app).get('/api/v1/routes/best')
+        .query({
+            origin:'',
+            destination: 'KZN'
+        }).then(res => {
+            expect(res.status).to.equal(500);
+            expect(res.body.message).to.eql('Missing origin airport code');
+        });
+    });
+
+    // Empty dest
+    it('should return error message for missing destination', function() {
+        this.timeout(0);
+        return chai.request(app).get('/api/v1/routes/best')
+        .query({
+            origin:'AER',
+            destination: ''
+        }).then(res => {
+            expect(res.status).to.equal(500);
+            expect(res.body.message).to.eql('Missing destination airport code');
+        });
+    });
+
+    // Origin airport not found
+    it('should return airport not found for origin', function() {
+        this.timeout(0);
+        return chai.request(app).get('/api/v1/routes/best')
+        .query({
+            origin:'YYYYYY',
+            destination: 'KZN'
+        }).then(res => {
+            expect(res.status).to.equal(500);
+            expect(res.body.message).to.eql('Airport not found: YYYYYY');
+        });
+    });
+
+    // Dest airport not found
+    it('should return airport not found for destination', function() {
+        this.timeout(0);
+        return chai.request(app).get('/api/v1/routes/best')
+        .query({
+            origin:'AER',
+            destination: 'TT'
+        }).then(res => {
+            expect(res.status).to.equal(500);
+            expect(res.body.message).to.eql('Airport not found: TT');
+        });
+    });
+
+    // Same origin and dest
+    it('should return that origin and destination are the same', function() {
+        this.timeout(0);
+        return chai.request(app).get('/api/v1/routes/best')
+        .query({
+            origin:'AER',
+            destination: 'AER'
+        }).then(res => {
+            expect(res.status).to.equal(500);
+            expect(res.body.message).to.eql('Origin and destination airports are the same');
+        });
+    });
+
+    it('it should return empty list for path of more than 4 legs', function(){
+        this.timeout(0);
+        return chai.request(app).get('/api/v1/routes/best')
+        .query({
+            origin: 'AER',
+            destination: 'HTBU'
+        }).then(res => {
+            expect(res.status).to.equal(200);
+            expect(res).to.have.header('content-type','application/json; charset=utf-8');
+            expect(res.body.data).to.be.an('array');
+            expect(res.body.data).to.have.length(0);
+            expect(res.body.message).to.eql('Flight route contains more than 4 legs');
+        });
+    });
+
+    it('it should return empty list for path not found', function(){
+        this.timeout(0);
+        return chai.request(app).get('/api/v1/routes/best')
+        .query({
+            origin: 'ASF',
+            destination: 'XXX'
+        }).then(res => {
+            expect(res.status).to.equal(200);
+            expect(res).to.have.header('content-type','application/json; charset=utf-8');
+            expect(res.body.data).to.be.an('array');
+            expect(res.body.data).to.have.length(0);
+            expect(res.body.message).to.eql('Flight route not found');
+        });
+    });
+
     // Route tests
     let testParams = [
         ['DME', 'KZN'], // 1 leg
         ['AER', 'ASF'], // 2 legs
         ['AER', 'MRV'], // 3 legs
-        ['AER', 'GYD'], // 4 legs (more than requirement, but routesearch function shouldn't care)
-        ['ASF', 'HGH'] // 0 legs (path not found)
+        ['AER', 'CZX']  // 4 legs
     ];
 
 
@@ -105,8 +199,51 @@ describe('GET api/v1/routes', () => {
             stops: 0,
             equipment: 'CR2'
         }],
-        [],
-        []
+        // 4 legs
+        [{
+            airline: 'HY',
+            airlineid: 5281,
+            source: 'AER',
+            sourceid: '2965',
+            dest: 'TAS',
+            destid: '2983',
+            codeshare: '',
+            stops: 0,
+            equipment: '767'
+        },
+        {
+            airline: 'CZ',
+            airlineid: 1767,
+            source: 'TAS',
+            sourceid: '2983',
+            dest: 'URC',
+            destid: '3399',
+            codeshare: '',
+            stops: 0,
+            equipment: '752'
+        },
+        {
+            airline: 'CA',
+            airlineid: 751,
+            source: 'URC',
+            sourceid: '3399',
+            dest: 'TYN',
+            destid: '3369',
+            codeshare: 'Y',
+            stops: 0,
+            equipment: '738'
+        },
+        {
+            airline: 'CZ',
+            airlineid: 1767,
+            source: 'TYN',
+            sourceid: '3369',
+            dest: 'CZX',
+            destid: '4109',
+            codeshare: 'Y',
+            stops: 0,
+            equipment: '737'
+        }]
     ];
 
     testParams.forEach(function(t,i) {
@@ -120,74 +257,9 @@ describe('GET api/v1/routes', () => {
                 expect(res.status).to.equal(200);
                 expect(res).to.have.header('content-type','application/json; charset=utf-8');
                 expect(res.body.data).to.be.an('array');
-                expect(res.body.data).to.have.length(testResults.length);
+                expect(res.body.data).to.have.length(testResults[i].length);
                 (res.body.data).should.have.jsonEqual.members(testResults[i]);
             });
-        });
-    });
-
-    // Empty origin
-    it('should return ', function() {
-        this.timeout(0);
-        return chai.request(app).get('/api/v1/routes/best')
-        .query({
-            origin:'',
-            destination: 'KZN'
-        }).then(res => {
-            expect(res.status).to.equal(500);
-            expect(res.body.message).to.eql('Missing origin airport code');
-        });
-    });
-
-    // Empty dest
-    it('should return ', function() {
-        this.timeout(0);
-        return chai.request(app).get('/api/v1/routes/best')
-        .query({
-            origin:'AER',
-            destination: 'KZN'
-        }).then(res => {
-            expect(res.status).to.equal(500);
-            expect(res.body.message).to.eql('Missing destination airport code');
-        });
-    });
-
-    // Origin airport not found
-    it('should return ', function() {
-        this.timeout(0);
-        return chai.request(app).get('/api/v1/routes/best')
-        .query({
-            origin:'GGG',
-            destination: 'KZN'
-        }).then(res => {
-            expect(res.status).to.equal(500);
-            expect(res.body.message).to.eql('Airport not found: GGG');
-        });
-    });
-
-    // Dest airport not found
-    it('should return ', function() {
-        this.timeout(0);
-        return chai.request(app).get('/api/v1/routes/best')
-        .query({
-            origin:'AER',
-            destination: 'GGG'
-        }).then(res => {
-            expect(res.status).to.equal(500);
-            expect(res.body.message).to.eql('Airport not found: GGG');
-        });
-    });
-
-    // Same origin and dest
-    it('should return ', function() {
-        this.timeout(0);
-        return chai.request(app).get('/api/v1/routes/best')
-        .query({
-            origin:'AER',
-            destination: 'AER'
-        }).then(res => {
-            expect(res.status).to.equal(500);
-            expect(res.body.message).to.eql('Origin and Destination airports are the same');
         });
     });
 });
