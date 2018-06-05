@@ -92,6 +92,7 @@ Sample JSON response
 api/v1/routes/best?origin=AER&destination=PEK
 
 origin should be either the IATA or ICAO code of an airport
+
 destination should be either the IATA or ICAO code of an airport
 
 #### Returns list of JSON objects containing legs of a flight route between the origin and destination
