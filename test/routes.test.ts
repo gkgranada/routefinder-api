@@ -1,9 +1,6 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
-import chaiJsonEqual = require('chai-json-equal');
-
-chai.use(chaiJsonEqual);
 
 import app from '../src/App';
 
