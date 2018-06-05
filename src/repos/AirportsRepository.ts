@@ -22,12 +22,11 @@ export class AirportsRepository {
 
     // Returns all airport records
     all() {
-
         return this.db.any('SELECT * FROM airports');
     }
 
     findByCode(code: string){
-        return this.db.one("SELECT * FROM airports where iata = \'" + code + "\' or icao = \'" + code + "\'");
+        return this.db.oneOrNone("SELECT * FROM airports where iata = \'" + code + "\' or icao = \'" + code + "\'");
     }
 
 }
