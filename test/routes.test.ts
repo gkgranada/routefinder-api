@@ -122,8 +122,8 @@ describe('GET api/v1/routes', () => {
     // Route tests
     let testParams = [
         ['DME', 'KZN'], // 1 leg
-        ['AER', 'ASF'], // 2 legs
-        ['AER', 'MRV'], // 3 legs
+        ['AER', 'MRV'], // 2 legs
+        ['AER', 'ASF'], // 3 legs
         ['AER', 'CZX']  // 4 legs
     ];
 
@@ -144,57 +144,57 @@ describe('GET api/v1/routes', () => {
         }],
         // 2 legs
         [{
-            airline: '2B',
-            airlineid: 410,
+            airline: 'QN',
+            airlineid: 426,
             source: 'AER',
             sourceid: '2965',
-            dest: 'KZN',
-            destid: '2990',
+            dest: 'EVN',
+            destid: '3964',
             codeshare: '',
             stops: 0,
-            equipment: 'CR2'
+            equipment: '735'
         },
         {
-            airline: '2B',
-            airlineid: 410,
-            source: 'KZN',
-            sourceid: '2990',
-            dest: 'ASF',
-            destid: '2966',
+            airline: 'SU',
+            airlineid: 130,
+            source: 'EVN',
+            sourceid: '3964',
+            dest: 'MRV',
+            destid: '2962',
             codeshare: '',
             stops: 0,
-            equipment: 'CR2'
+            equipment: '319'
         }],
         // 3 legs
         [{
-            airline: '2B',
-            airlineid: 410,
+            airline: 'QN',
+            airlineid: 426,
             source: 'AER',
             sourceid: '2965',
-            dest: 'KZN',
-            destid: '2990',
+            dest: 'EVN',
+            destid: '3964',
             codeshare: '',
             stops: 0,
-            equipment: 'CR2'
+            equipment: '735'
         },
         {
-            airline: '2B',
-            airlineid: 410,
-            source: 'KZN',
-            sourceid: '2990',
-            dest: 'ASF',
-            destid: '2966',
-            codeshare: '',
-            stops: 0,
-            equipment: 'CR2'
-        },
-        {
-            airline: '2B',
-            airlineid: 410,
-            source: 'KZN',
-            sourceid: '2966',
+            airline: 'SU',
+            airlineid: 130,
+            source: 'EVN',
+            sourceid: '3964',
             dest: 'MRV',
             destid: '2962',
+            codeshare: '',
+            stops: 0,
+            equipment: '319'
+        },
+        {
+            airline: '2B',
+            airlineid: 410,
+            source: 'MRV',
+            sourceid: '2962',
+            dest: 'ASF',
+            destid: '2966',
             codeshare: '',
             stops: 0,
             equipment: 'CR2'
@@ -258,7 +258,12 @@ describe('GET api/v1/routes', () => {
                 expect(res).to.have.header('content-type','application/json; charset=utf-8');
                 expect(res.body.data).to.be.an('array');
                 expect(res.body.data).to.have.length(testResults[i].length);
-                (res.body.data).should.have.jsonEqual.members(testResults[i]);
+                res.body.data.forEach(function(v, j) {
+                    expect(v.source).to.be.eql(testResults[i][j].source);
+                    expect(v.sourceid).to.be.eql(testResults[i][j].sourceid);
+                    expect(v.dest).to.be.eql(testResults[i][j].dest);
+                    expect(v.destid).to.be.eql(testResults[i][j].destid);
+                });
             });
         });
     });
