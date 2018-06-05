@@ -38,7 +38,6 @@ module AStarRouteSearch {
             });
             
             if (current == dest) {
-                console.log("Found path!");
                 return reconstructPath(cameFrom, current);
             }
             openList.splice(openList.indexOf(current), 1);
