@@ -13,10 +13,11 @@ api/v1/routes/best?origin=AER&destination=PEK
 
 *Geo-distance formula used is the haversine formula
 
+## Database
 Database dump found in flights.db
  - Contains dummy airport for testing purposes
-
-           Table "public.routes"
+ 
+### Table "public.routes"
   Column   |       Type        | Modifiers 
 -----------+-------------------+-----------
  airline   | character varying | 
@@ -30,7 +31,7 @@ Database dump found in flights.db
  equipment | character varying | 
 
 
-                                Table "public.airports"
+### Table "public.airports"
   Column   |       Type        |                       Modifiers                       
 -----------+-------------------+-------------------------------------------------------
  id        | integer           | not null default nextval('airports_id_seq'::regclass)
@@ -50,7 +51,8 @@ Database dump found in flights.db
 Indexes:
     "airports_pkey" PRIMARY KEY, btree (id)
 
-                               Table "public.airlines"
+
+### Table "public.airlines"
   Column  |       Type        |                       Modifiers                       
 ----------+-------------------+-------------------------------------------------------
  id       | integer           | not null default nextval('airlines_id_seq'::regclass)
