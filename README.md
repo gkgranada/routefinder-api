@@ -96,6 +96,7 @@ origin should be either the IATA or ICAO code of an airport
 destination should be either the IATA or ICAO code of an airport
 
 #### Returns list of JSON objects containing legs of a flight route between the origin and destination
+Note: route returned will contain either IATA or ICAO but not both because the database only lists one or the other
 Sample JSON response
 {
 
