@@ -1,6 +1,6 @@
 import * as Collections from 'typescript-collections';
 import * as haversine from 'haversine';
-import{Airport} from '../models/Airport';
+import {Airport} from '../models/airport';
 
 module AStarRouteSearch {
 

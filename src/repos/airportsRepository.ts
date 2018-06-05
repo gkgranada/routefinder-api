@@ -1,6 +1,6 @@
 import {IDatabase, IMain, ColumnSet} from 'pg-promise';
 import {IResult} from 'pg-promise/typescript/pg-subset';
-import{Airport} from '../models/Airport';
+import{Airport} from '../models/airport';
 
 /*
  This repository mixes hard-coded and dynamic SQL, primarily to show a diverse example of using both.

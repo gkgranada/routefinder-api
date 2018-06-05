@@ -1,6 +1,6 @@
 import assert = require('assert');
-import {AStarRouteSearch} from '../src/helpers/AStarRouteSearch';
-import{Airport} from '../src/models/Airport';
+import {AStarRouteSearch} from '../src/helpers/aStarRouteSearch';
+import{Airport} from '../src/models/airport';
 
 
 describe('AStarRouteSearch unit tests', function () {
@@ -262,7 +262,6 @@ describe('AStarRouteSearch unit tests', function () {
                 t[1],
                 airports,
                 routes);
-        console.log(path);
         it('it should return [' + testResults[i] + ']  for ' + t[0] + ' .. ' + t[1], function(){
             console.log(path);
             assert.deepStrictEqual(testResults[i], path);

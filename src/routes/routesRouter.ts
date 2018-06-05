@@ -1,9 +1,9 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import db = require('../db/RoutesQueries');
-import{Airport} from '../models/Airport';
-import {Route} from '../models/Route';
-import {AStarRouteSearch} from '../helpers/AStarRouteSearch';
-import {RouteHelper} from '../helpers/RouteHelper';
+import db = require('../db/routesQueries');
+import {Airport} from '../models/airport';
+import {Route} from '../models/route';
+import {AStarRouteSearch} from '../helpers/aStarRouteSearch';
+import {RouteHelper} from '../helpers/routeHelper';
 
 export class RoutesRouter {
     router: Router

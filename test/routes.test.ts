@@ -2,7 +2,7 @@ import * as mocha from 'mocha';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
-import app from '../src/App';
+import app from '../src/app';
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -244,7 +244,7 @@ describe('GET api/v1/routes', () => {
     ];
 
     testParams.forEach(function(t,i) {
-        it('it should return [' + testResults[i] + ']  for ' + t[0] + ' .. ' + t[1], function(){
+        it('it should return a flight route from ' + t[0] + ' to ' + t[1], function(){
             this.timeout(0);
             return chai.request(app).get('/api/v1/routes/best')
             .query({

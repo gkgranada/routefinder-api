@@ -1,5 +1,5 @@
-import {RoutesRepository} from './RoutesRepository';
-import {AirportsRepository} from './AirportsRepository';
+import {RoutesRepository} from './routesRepository';
+import {AirportsRepository} from './airportsRepository';
 
 // Database Interface Extensions:
 interface IExtensions {

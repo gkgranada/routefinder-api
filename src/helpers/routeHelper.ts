@@ -1,4 +1,4 @@
-import {Route} from '../models/Route';
+import {Route} from '../models/route';
 
 module RouteHelper {
     export function constructFlightPath(routes : Map<number, Route[]>, path : number[]) : Route[] {
